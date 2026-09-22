@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<title>Vocabulaire</title>
+
+<!-- Home-screen / app-like behaviour -->
+<meta name="theme-color" content="#2a2f45">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vocabulaire">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232a2f45'/%3E%3Ctext x='50' y='66' font-family='Georgia,serif' font-size='54' font-weight='bold' fill='%23f6f1e4' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232a2f45'/%3E%3Ctext x='50' y='66' font-family='Georgia,serif' font-size='54' font-weight='bold' fill='%23f6f1e4' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Carnet%20de%20vocabulaire%22%2C%22short_name%22%3A%22Vocabulaire%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f6f1e4%22%2C%22theme_color%22%3A%22%232a2f45%22%7D">
+<style>
+  :root{
+    --paper:#f6f1e4;
+    --paper-line:#e3d9c0;
+    --ink:#2a2f45;
+    --ink-soft:#5b5f78;
+    --red:#b4432f;
+    --red-soft:#d97757;
+    --gold:#a9822f;
+    --card-back:#2a2f45;
+    --card-back-text:#f6f1e4;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 34px;
+    color:var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    min-height:100vh;
+    padding-bottom:40px;
+  }
+  header{
+    padding:22px 18px 14px;
+    position:sticky;
+    top:0;
+    background:var(--paper);
+    z-index:5;
+    border-bottom:2px solid var(--ink);
+  }
+  h1{
+    margin:0 0 2px;
+    font-size:1.5rem;
+    letter-spacing:0.5px;
+    color:var(--ink);
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  h1 .accent{color:var(--red);font-style:italic;}
+  .sub{
+    margin:0 0 14px;
+    color:var(--ink-soft);
+    font-size:0.85rem;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  #search{
+    width:100%;
+    padding:11px 14px;
+    border-radius:8px;
+    border:1.5px solid var(--ink);
+    background:#fffdf8;
+    font-family: -apple-system, system-ui, sans-serif;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  #search::placeholder{color:#9b93a0;}
+  nav#tabs{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:12px 18px 0;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav#tabs::-webkit-scrollbar{display:none;}
+  .tab{
+    flex:0 0 auto;
+    font-family:-apple-system, system-ui, sans-serif;
+    font-size:0.82rem;
+    font-weight:600;
+    padding:7px 13px;
+    border-radius:20px;
+    border:1.5px solid var(--ink);
+    background:transparent;
+    color:var(--ink);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .tab.active{
+    background:var(--ink);
+    color:var(--paper);
+  }
+  main{padding:18px;}
+  .lesson-title{
+    font-size:0.78rem;
+    font-family:-apple-system, system-ui, sans-serif;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:var(--gold);
+    margin:18px 2px 10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .lesson-title::before{
+    content:"";
+    width:22px;height:1px;background:var(--gold);
+    display:inline-block;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  @media(min-width:640px){
+    .grid{grid-template-columns:1fr 1fr;}
+  }
+  .card{
+    perspective:1200px;
+    height:118px;
+  }
+  .card-inner{
+    position:relative;
+    width:100%;height:100%;
+    transform-style:preserve-3d;
+    transition:transform 0.45s cubic-bezier(.4,.2,.2,1);
+  }
+  .card.flipped .card-inner{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;
+    border-radius:10px;
+    backface-visibility:hidden;
+    padding:14px 16px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    cursor:pointer;
+  }
+  .front{
+    background:#fffdf8;
+    border:1.5px solid var(--ink);
+    box-shadow:3px 3px 0 var(--paper-line);
+  }
+  .front .term{
+    font-size:1.12rem;
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 4px;
+  }
+  .front .fr-def{
+    font-size:0.86rem;
+    color:var(--ink-soft);
+    font-style:italic;
+    line-height:1.3;
+  }
+  .front .tap-hint{
+    position:absolute;
+    bottom:8px;right:12px;
+    font-family:-apple-system, system-ui, sans-serif;
+    font-size:0.65rem;
+    color:#b7ae9a;
+  }
+  .back{
+    background:var(--card-back);
+    color:var(--card-back-text);
+    transform:rotateY(180deg);
+    border-radius:10px;
+    align-items:flex-end;
+    text-align:right;
+    direction:rtl;
+  }
+  .back .ar{
+    font-size:1.15rem;
+    line-height:1.5;
+    font-family:'Geeza Pro','Noto Naskh Arabic', Tahoma, sans-serif;
+  }
+  .back .term-echo{
+    direction:ltr;
+    text-align:left;
+    font-size:0.7rem;
+    color:var(--red-soft);
+    font-family:-apple-system, system-ui, sans-serif;
+    margin-top:6px;
+  }
+  #empty{
+    display:none;
+    text-align:center;
+    color:var(--ink-soft);
+    font-family:-apple-system, system-ui, sans-serif;
+    padding:40px 10px;
+  }
+  footer{
+    text-align:center;
+    color:#a49c88;
+    font-family:-apple-system, system-ui, sans-serif;
+    font-size:0.72rem;
+    padding:26px 10px 6px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Carnet de vocabulaire <span class="accent">— français</span></h1>
+  <p class="sub">Appuie sur une carte pour voir le sens en arabe. Cherche un mot ci-dessous.</p>
+  <input id="search" type="text" placeholder="Chercher un mot... (ex: convaincre)">
+</header>
+
+<nav id="tabs"></nav>
+
+<main>
+  <div id="lessons"></div>
+  <div id="empty">Aucun mot trouvé.</div>
+</main>
+
+<footer>7 leçons · appuie pour retourner la carte</footer>
+
+<script>
+const DATA = [
+{c:1, t:"adapter", fr:"changer une chose pour qu'elle convienne à une situation", ar:"يُكيّف / يُقلم"},
+{c:1, t:"une illustration", fr:"image ou dessin qui accompagne et éclaire un texte", ar:"رسم توضيحي / صورة إيضاحية"},
+{c:1, t:"attirer", fr:"faire venir quelqu'un vers soi, éveiller son intérêt", ar:"يجذب"},
+{c:1, t:"l'édito(rial)", fr:"article d'ouverture d'un magazine, écrit par le rédacteur en chef", ar:"افتتاحية المجلة"},
+{c:1, t:"relever", fr:"remarquer et signaler un détail précis", ar:"يلاحظ / يرصد"},
+{c:1, t:"savourer", fr:"apprécier pleinement, déguster avec plaisir", ar:"يتذوق / يستمتع بـ"},
+{c:1, t:"parler à voix haute", fr:"s'exprimer d'une voix forte, non silencieuse", ar:"يتحدث بصوت عالٍ"},
+{c:1, t:"ignorer", fr:"ne pas tenir compte de quelque chose ou quelqu'un", ar:"يتجاهل"},
+{c:1, t:"on ne peut pas passer à côté", fr:"c'est trop important pour être ignoré", ar:"لا يمكن تجاهله"},
+{c:1, t:"éloquent(e)", fr:"qui s'exprime avec aisance et pouvoir de persuasion", ar:"بليغ / فصيح"},
+{c:1, t:"repenser", fr:"réfléchir à nouveau à quelque chose, changer d'avis", ar:"يعيد التفكير في"},
+{c:1, t:"progresser", fr:"avancer, s'améliorer petit à petit", ar:"يتقدم / يتطور"},
+{c:1, t:"conquérir", fr:"obtenir quelque chose par la force, le mérite ou le charme", ar:"يقهر / يغزو / يكسب"},
+{c:1, t:"d'entre", fr:"préposition marquant un groupe : « parmi »", ar:"من بين"},
+{c:1, t:"ressentir", fr:"éprouver un sentiment ou une sensation", ar:"يشعر بـ"},
+{c:1, t:"prendre la parole", fr:"commencer à parler devant un public", ar:"يأخذ الكلمة"},
+{c:1, t:"émettre (un avis)", fr:"exprimer, formuler une opinion", ar:"يبدي رأيًا / يعبّر عن"},
+{c:1, t:"convaincre", fr:"persuader quelqu'un par des arguments", ar:"يُقنع"},
+{c:1, t:"émouvoir", fr:"toucher les sentiments de quelqu'un", ar:"يؤثر عاطفيًا / يحرّك المشاعر"},
+{c:1, t:"toucher", fr:"émouvoir, affecter émotionnellement", ar:"يمس / يؤثر في"},
+
+{c:2, t:"les rimes", fr:"sons identiques à la fin de deux vers ou mots", ar:"القافية"},
+{c:2, t:"saccadé(e)", fr:"qui se fait par à-coups, de façon irrégulière (ex: parler de façon saccadée)", ar:"متقطّع (في الكلام)"},
+{c:2, t:"s'amuser avec des mots", fr:"jouer avec le langage, faire des jeux de mots", ar:"يلعب بالكلمات"},
+{c:2, t:"faire du théâtre", fr:"jouer la comédie, pratiquer l'art dramatique", ar:"يمثّل (مسرح)"},
+{c:2, t:"le tronc (des arbres)", fr:"partie principale et verticale de l'arbre", ar:"جذع الشجرة"},
+{c:2, t:"le beurre de cacahuète", fr:"pâte tartinable à base de cacahuètes", ar:"زبدة الفول السوداني"},
+{c:2, t:"avoir le cœur pris", fr:"être déjà amoureux de quelqu'un", ar:"قلبه مشغول (واقع في الحب)"},
+{c:2, t:"cofondateur / cofondatrice", fr:"personne qui crée une entreprise ou un projet avec d'autres", ar:"شريك مؤسس"},
+
+{c:3, t:"la tendance", fr:"orientation générale, mode du moment", ar:"اتجاه / موضة رائجة"},
+{c:3, t:"l'impulsion", fr:"force intérieure ou extérieure qui pousse à agir", ar:"دافع / حافز"},
+{c:3, t:"décoller", fr:"commencer à réussir, prendre son envol (au sens propre ou figuré)", ar:"ينطلق / يقلع"},
+{c:3, t:"exploser", fr:"connaître un succès soudain et très fort", ar:"ينفجر نجاحًا"},
+{c:3, t:"dématérialisé(e)", fr:"qui n'existe plus sous forme physique (ex : le livre numérique)", ar:"غير مادي / رقمي"},
+{c:3, t:"inconcevable", fr:"qu'on ne peut pas imaginer, extraordinaire", ar:"لا يُصدَّق / غير معقول"},
+{c:3, t:"un ouvrage", fr:"un livre, une œuvre littéraire", ar:"مؤلَّف / عمل أدبي"},
+{c:3, t:"une dévoreuse de romans", fr:"une personne qui lit énormément de romans, avec avidité", ar:"شرِهة لقراءة الروايات"},
+{c:3, t:"certes", fr:"il est vrai que... (introduit une concession)", ar:"صحيح أنّ... / بالتأكيد"},
+{c:3, t:"peser", fr:"avoir de l'importance, du poids dans une décision", ar:"له وزن / قيمة"},
+{c:3, t:"ne cesse de progresser", fr:"continue de progresser sans s'arrêter", ar:"لا يتوقف عن النمو"},
+{c:3, t:"une claque", fr:"un choc, une grande surprise (sens figuré)", ar:"صدمة / مفاجأة قوية"},
+{c:3, t:"accro", fr:"passionné(e), dépendant(e) de quelque chose", ar:"مدمن على شيء (بمعنى إيجابي غالبًا)"},
+{c:3, t:"l'institutrice", fr:"la maîtresse d'école primaire", ar:"معلمة الابتدائي"},
+{c:3, t:"présidente d'Audiolib", fr:"directrice d'une maison d'édition de livres audio", ar:"مديرة (فروع/شركة)"},
+{c:3, t:"timide", fr:"qui manque d'assurance devant les autres", ar:"خجول"},
+{c:3, t:"inquiéter (imparfait: inquiétait)", fr:"rendre quelqu'un anxieux", ar:"كان يُقلق"},
+{c:3, t:"des clans", fr:"des groupes fermés de personnes", ar:"عشائر / مجموعات مغلقة"},
+{c:3, t:"brancher", fr:"insérer la prise électrique, connecter un appareil", ar:"يوصّل الفيشة / يشبّك"},
+{c:3, t:"télécharger", fr:"transférer un fichier depuis internet vers son appareil", ar:"يُحمّل / ينزّل (ملف)"},
+{c:3, t:"distrait(e)", fr:"qui manque d'attention, dont l'esprit est ailleurs", ar:"شارد الذهن"},
+
+{c:4, t:"prendre racine ensemble", fr:"s'installer durablement, ancrer une relation dans la durée", ar:"يستقرّان معًا بشكل دائم"},
+{c:4, t:"se tisser", fr:"se créer progressivement, en parlant de liens affectifs forts", ar:"تُنسج (روابط عاطفية بمرور الوقت)"},
+{c:4, t:"se connaître par cœur", fr:"se connaître extrêmement bien", ar:"يعرفان بعضهما جيدًا جدًا"},
+{c:4, t:"s'expliquer en long et en large", fr:"donner des explications très détaillées", ar:"يشرح بالتفصيل الممل"},
+{c:4, t:"ça marche si bien", fr:"cela fonctionne à la perfection", ar:"الأمور تسير بشكل ممتاز"},
+{c:4, t:"faire des choses dingues", fr:"faire des choses folles, hors du commun", ar:"يفعلان أشياء جنونية / غير معتادة"},
+{c:4, t:"cultiver de vrais liens", fr:"développer des relations authentiques avec le temps", ar:"ينميان علاقة حقيقية"},
+{c:4, t:"le parcours", fr:"le chemin suivi, l'itinéraire (au sens propre ou figuré)", ar:"المسار"},
+{c:4, t:"se retrouver", fr:"se réunir de nouveau après une séparation", ar:"يجتمعان من جديد (لمّ الشمل)"},
+{c:4, t:"appartenir", fr:"faire partie de quelque chose", ar:"ينتمي إلى"},
+
+{c:5, t:"les manches", fr:"parties d'un vêtement qui couvrent les bras (ex: manches d'un t-shirt)", ar:"كم القميص"},
+{c:5, t:"un(e) intellectuel(le)", fr:"personne dont le métier ou la vie repose sur la réflexion", ar:"مثقف"},
+{c:5, t:"le livreur / la livreuse", fr:"personne qui livre des colis ou des repas", ar:"مندوب توصيل"},
+{c:5, t:"banal(e)", fr:"ordinaire, sans importance particulière", ar:"عادي / تافه"},
+{c:5, t:"un tiers", fr:"une part sur trois (1/3)", ar:"ثلث"},
+{c:5, t:"ça bosse", fr:"on travaille dur (familier)", ar:"يشتغل بجد"},
+{c:5, t:"un gagne-pain", fr:"un métier qui permet de gagner sa vie", ar:"مصدر رزق"},
+{c:5, t:"ils ont l'air", fr:"ils semblent, ils paraissent", ar:"يبدون كأنّهم"},
+{c:5, t:"les recruteurs", fr:"les personnes chargées d'embaucher", ar:"موظفو التوظيف"},
+{c:5, t:"dédié(e)", fr:"consacré(e) entièrement à quelque chose", ar:"مكرّس لـ"},
+{c:5, t:"se dévoiler", fr:"se révéler, se montrer tel(le) qu'on est vraiment", ar:"يكشف عن نفسه"},
+{c:5, t:"issu(e) de", fr:"qui provient de, qui vient de", ar:"قادم/نابع من"},
+{c:5, t:"à disposition", fr:"disponible, prêt à être utilisé", ar:"متاح"},
+{c:5, t:"intuitif(ve)", fr:"facile à utiliser sans réfléchir, naturel", ar:"بديهي / سهل الاستخدام"},
+{c:5, t:"convivial(e)", fr:"chaleureux(se), agréable, qui favorise les échanges", ar:"ودود / مريح (بيئة)"},
+{c:5, t:"une fresque murale", fr:"une grande peinture réalisée directement sur un mur", ar:"رسم على الحائط"},
+
+{c:6, t:"participer", fr:"prendre part à une activité", ar:"يشارك"},
+{c:6, t:"je te prends en passant", fr:"un ami vient chercher un autre en voiture sur son chemin", ar:"هوصلك وأنا في طريقي"},
+{c:6, t:"prendre à cœur", fr:"accorder une grande importance à quelque chose", ar:"يأخذ الأمر على محمل الجد"},
+{c:6, t:"le pique", fr:"une des quatre couleurs du jeu de cartes (♠)", ar:"السباتي (في ورق اللعب)"},
+{c:6, t:"indiquer", fr:"montrer, signaler un chemin ou une information", ar:"يوصف / يدلّ على"},
+{c:6, t:"prenez à gauche", fr:"tournez à gauche (indication de direction)", ar:"خد شمالك"},
+{c:6, t:"le divertissement", fr:"activité qui amuse, qui distrait", ar:"ترفيه"},
+{c:6, t:"effacer", fr:"faire disparaître quelque chose", ar:"يمحو"},
+{c:6, t:"ressembler", fr:"avoir un aspect similaire à quelqu'un ou quelque chose", ar:"يشبه"},
+{c:6, t:"un instant", fr:"un très court moment", ar:"لحظة"},
+{c:6, t:"une exigence", fr:"ce qu'on réclame avec fermeté", ar:"مطلب / تشدد"},
+{c:6, t:"le compositeur / la compositrice", fr:"personne qui écrit de la musique", ar:"ملحّن"},
+{c:6, t:"engagé(e)", fr:"qui défend activement une cause", ar:"ملتزم (بقضية)"},
+{c:6, t:"inventer", fr:"créer quelque chose de nouveau", ar:"يخترع"},
+{c:6, t:"un enjeu social", fr:"ce que la société a à gagner ou à perdre dans une situation", ar:"رهان / قضية اجتماعية"},
+{c:6, t:"impératif(ve)", fr:"absolument nécessaire, obligatoire", ar:"ضروري / حتمي"},
+{c:6, t:"autrement", fr:"d'une manière différente", ar:"بطريقة مختلفة"},
+{c:6, t:"des défis", fr:"des challenges, des obstacles à surmonter", ar:"تحديات"},
+{c:6, t:"de chasse", fr:"relatif à la chasse (l'activité de chasser)", ar:"متعلق بالصيد"},
+{c:6, t:"une exposition", fr:"présentation publique d'œuvres ou d'objets", ar:"معرض"},
+{c:6, t:"épanoui(e)", fr:"qui se sent bien, heureux et accompli", ar:"متفتح / سعيد وراضٍ"},
+{c:6, t:"un ouvrier / une ouvrière", fr:"personne qui exerce un travail manuel", ar:"عامل يدوي"},
+{c:6, t:"une impression", fr:"sentiment général qu'on a de quelque chose", ar:"انطباع"},
+
+{c:7, t:"les gitans", fr:"peuple nomade, qui n'a pas d'habitation fixe", ar:"الرحّالة (الغجر)"},
+{c:7, t:"une chaleur", fr:"au sens figuré : de l'affection, de la tendresse humaine", ar:"دفء / عطف"},
+{c:7, t:"la tendresse", fr:"sentiment doux d'affection envers quelqu'un", ar:"الحنان"},
+{c:7, t:"immanquablement", fr:"à coup sûr, obligatoirement, sans faute", ar:"حتمًا / لا محالة"},
+{c:7, t:"approcher (imparfait: approchait)", fr:"se rapprocher progressivement de quelque chose", ar:"كان(ت) يقترب"},
+{c:7, t:"demeurer (imparfait: demeuraient)", fr:"rester, habiter quelque part", ar:"كانوا يقيمون"},
+{c:7, t:"captiver (imparfait: captivait)", fr:"retenir complètement l'attention de quelqu'un", ar:"كان يأسر الانتباه"},
+{c:7, t:"un bigouden", fr:"coiffe traditionnelle bretonne (région de France)", ar:"غطاء رأس تقليدي بريتاني"},
+{c:7, t:"j'enfile", fr:"je mets un vêtement", ar:"ألبس"},
+{c:7, t:"le quai", fr:"bord aménagé d'un port, où l'on embarque", ar:"رصيف الميناء"},
+{c:7, t:"la rosée", fr:"fines gouttes d'eau qui se forment le matin sur les plantes", ar:"الندى"},
+{c:7, t:"j'embarque", fr:"je monte à bord d'un bateau, d'un avion", ar:"أركب (المركب)"},
+{c:7, t:"deux épaisseurs", fr:"deux couches superposées de matière", ar:"طبقتان"},
+{c:7, t:"émerger", fr:"apparaître à la surface, sortir progressivement", ar:"يظهر / يطفو"},
+{c:7, t:"des poches", fr:"renflements, gonflements (ex : poches sous les yeux)", ar:"انتفاخات"},
+{c:7, t:"costaud(e)", fr:"fort(e), robuste physiquement", ar:"قوي البنية"},
+{c:7, t:"se serrer la main", fr:"se saluer en se donnant la main", ar:"يتصافحان"},
+{c:7, t:"les couchettes", fr:"lits superposés sur un bateau ou un train", ar:"أسرّة (على متن السفينة/القطار)"},
+{c:7, t:"le fond de cale", fr:"partie la plus basse et fermée d'un bateau", ar:"قاع السفينة (العنبر)"},
+{c:7, t:"le pilotage", fr:"action de piloter un bateau, un avion, un véhicule", ar:"قيادة / ملاحة"},
+];
+
+const lessonsEl = document.getElementById('lessons');
+const tabsEl = document.getElementById('tabs');
+const searchEl = document.getElementById('search');
+const emptyEl = document.getElementById('empty');
+
+const lessonNums = [...new Set(DATA.map(d=>d.c))];
+
+function makeTab(n, active){
+  const b = document.createElement('button');
+  b.className = 'tab' + (active ? ' active' : '');
+  b.textContent = n === 'all' ? 'Tout' : 'Leçon ' + n;
+  b.dataset.val = n;
+  b.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    b.classList.add('active');
+    render();
+  };
+  return b;
+}
+
+tabsEl.appendChild(makeTab('all', true));
+lessonNums.forEach(n => tabsEl.appendChild(makeTab(n, false)));
+
+function currentTab(){
+  const active = document.querySelector('.tab.active');
+  return active ? active.dataset.val : 'all';
+}
+
+function render(){
+  const q = searchEl.value.trim().toLowerCase();
+  const tab = currentTab();
+  lessonsEl.innerHTML = '';
+
+  let anyMatch = false;
+  lessonNums.forEach(n => {
+    if (tab !== 'all' && String(tab) !== String(n)) return;
+    const items = DATA.filter(d => d.c === n && (
+      !q || d.t.toLowerCase().includes(q) || d.fr.toLowerCase().includes(q) || d.ar.includes(q)
+    ));
+    if (items.length === 0) return;
+    anyMatch = true;
+
+    const title = document.createElement('div');
+    title.className = 'lesson-title';
+    title.textContent = 'Leçon ' + n;
+    lessonsEl.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    items.forEach(d => grid.appendChild(makeCard(d)));
+    lessonsEl.appendChild(grid);
+  });
+
+  emptyEl.style.display = anyMatch ? 'none' : 'block';
+}
+
+function makeCard(d){
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-inner">
+      <div class="face front">
+        <p class="term">${d.t}</p>
+        <p class="fr-def">${d.fr}</p>
+        <span class="tap-hint">toucher ↻</span>
+      </div>
+      <div class="face back">
+        <div>
+          <p class="ar">${d.ar}</p>
+          <p class="term-echo">${d.t}</p>
+        </div>
+      </div>
+    </div>
+  `;
+  card.onclick = () => card.classList.toggle('flipped');
+  return card;
+}
+
+searchEl.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>
