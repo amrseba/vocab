@@ -2,18 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
-<title>Vocabulaire</title>
-
-<!-- Home-screen / app-like behaviour -->
-<meta name="theme-color" content="#2a2f45">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Vocabulaire">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232a2f45'/%3E%3Ctext x='50' y='66' font-family='Georgia,serif' font-size='54' font-weight='bold' fill='%23f6f1e4' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232a2f45'/%3E%3Ctext x='50' y='66' font-family='Georgia,serif' font-size='54' font-weight='bold' fill='%23f6f1e4' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Carnet%20de%20vocabulaire%22%2C%22short_name%22%3A%22Vocabulaire%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f6f1e4%22%2C%22theme_color%22%3A%22%232a2f45%22%7D">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Carnet de français</title>
 <style>
   :root{
     --paper:#f6f1e4;
@@ -23,6 +13,7 @@
     --red:#b4432f;
     --red-soft:#d97757;
     --gold:#a9822f;
+    --green:#3d6b52;
     --card-back:#2a2f45;
     --card-back-text:#f6f1e4;
   }
@@ -30,53 +21,62 @@
   html,body{margin:0;padding:0;}
   body{
     background:var(--paper);
-    background-image:
-      linear-gradient(var(--paper-line) 1px, transparent 1px);
-    background-size: 100% 34px;
+    background-image:linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size:100% 34px;
     color:var(--ink);
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family:Georgia,'Times New Roman',serif;
     min-height:100vh;
     padding-bottom:40px;
   }
   header{
-    padding:22px 18px 14px;
-    position:sticky;
-    top:0;
+    padding:20px 18px 12px;
+    position:sticky;top:0;
     background:var(--paper);
-    z-index:5;
+    z-index:6;
     border-bottom:2px solid var(--ink);
   }
   h1{
     margin:0 0 2px;
-    font-size:1.5rem;
-    letter-spacing:0.5px;
-    color:var(--ink);
-    display:flex;
-    align-items:baseline;
-    gap:8px;
+    font-size:1.4rem;
+    display:flex;align-items:baseline;gap:8px;
   }
   h1 .accent{color:var(--red);font-style:italic;}
   .sub{
-    margin:0 0 14px;
+    margin:0 0 12px;
     color:var(--ink-soft);
-    font-size:0.85rem;
-    font-family: -apple-system, system-ui, sans-serif;
+    font-size:0.82rem;
+    font-family:-apple-system,system-ui,sans-serif;
   }
+  #mode-switch{
+    display:flex;gap:6px;
+    margin-bottom:12px;
+  }
+  .mode-btn{
+    flex:1;
+    font-family:-apple-system,system-ui,sans-serif;
+    font-weight:700;
+    font-size:0.88rem;
+    padding:10px 6px;
+    border-radius:9px;
+    border:1.5px solid var(--ink);
+    background:transparent;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .mode-btn.active{background:var(--ink);color:var(--paper);}
   #search{
     width:100%;
     padding:11px 14px;
     border-radius:8px;
     border:1.5px solid var(--ink);
     background:#fffdf8;
-    font-family: -apple-system, system-ui, sans-serif;
+    font-family:-apple-system,system-ui,sans-serif;
     font-size:1rem;
     color:var(--ink);
   }
   #search::placeholder{color:#9b93a0;}
   nav#tabs{
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
+    display:flex;gap:8px;overflow-x:auto;
     padding:12px 18px 0;
     -webkit-overflow-scrolling:touch;
     scrollbar-width:none;
@@ -84,145 +84,340 @@
   nav#tabs::-webkit-scrollbar{display:none;}
   .tab{
     flex:0 0 auto;
-    font-family:-apple-system, system-ui, sans-serif;
-    font-size:0.82rem;
-    font-weight:600;
-    padding:7px 13px;
-    border-radius:20px;
+    font-family:-apple-system,system-ui,sans-serif;
+    font-size:0.8rem;font-weight:600;
+    padding:7px 12px;border-radius:20px;
     border:1.5px solid var(--ink);
-    background:transparent;
-    color:var(--ink);
-    cursor:pointer;
-    white-space:nowrap;
+    background:transparent;color:var(--ink);
+    cursor:pointer;white-space:nowrap;
   }
-  .tab.active{
-    background:var(--ink);
-    color:var(--paper);
-  }
+  .tab.active{background:var(--ink);color:var(--paper);}
   main{padding:18px;}
   .lesson-title{
-    font-size:0.78rem;
-    font-family:-apple-system, system-ui, sans-serif;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
+    font-size:0.76rem;
+    font-family:-apple-system,system-ui,sans-serif;
+    text-transform:uppercase;letter-spacing:1.5px;
     color:var(--gold);
     margin:18px 2px 10px;
-    display:flex;
-    align-items:center;
-    gap:8px;
+    display:flex;align-items:center;gap:8px;
   }
-  .lesson-title::before{
-    content:"";
-    width:22px;height:1px;background:var(--gold);
-    display:inline-block;
-  }
-  .grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:12px;
-  }
-  @media(min-width:640px){
-    .grid{grid-template-columns:1fr 1fr;}
-  }
-  .card{
-    perspective:1200px;
-    height:118px;
-  }
+  .lesson-title::before{content:"";width:22px;height:1px;background:var(--gold);display:inline-block;}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;}
+  @media(min-width:640px){.grid{grid-template-columns:1fr 1fr;}}
+  .card{perspective:1200px;height:126px;}
   .card-inner{
-    position:relative;
-    width:100%;height:100%;
+    position:relative;width:100%;height:100%;
     transform-style:preserve-3d;
     transition:transform 0.45s cubic-bezier(.4,.2,.2,1);
   }
   .card.flipped .card-inner{transform:rotateY(180deg);}
   .face{
-    position:absolute;inset:0;
-    border-radius:10px;
+    position:absolute;inset:0;border-radius:10px;
     backface-visibility:hidden;
-    padding:14px 16px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    cursor:pointer;
+    padding:14px 16px;display:flex;flex-direction:column;
+    justify-content:center;cursor:pointer;
   }
-  .front{
+  .front{background:#fffdf8;border:1.5px solid var(--ink);box-shadow:3px 3px 0 var(--paper-line);}
+  .front .term{font-size:1.08rem;font-weight:700;color:var(--ink);margin:0 0 4px;}
+  .front .fr-def{font-size:0.83rem;color:var(--ink-soft);font-style:italic;line-height:1.3;}
+  .front .tap-hint{position:absolute;bottom:8px;right:12px;font-family:-apple-system,system-ui,sans-serif;font-size:0.63rem;color:#b7ae9a;}
+  .back{background:var(--card-back);color:var(--card-back-text);transform:rotateY(180deg);border-radius:10px;align-items:flex-end;text-align:right;direction:rtl;}
+  .back .ar{font-size:1.1rem;line-height:1.5;font-family:'Geeza Pro','Noto Naskh Arabic',Tahoma,sans-serif;}
+  .back .term-echo{direction:ltr;text-align:left;font-size:0.68rem;color:var(--red-soft);font-family:-apple-system,system-ui,sans-serif;margin-top:6px;}
+  #empty{display:none;text-align:center;color:var(--ink-soft);font-family:-apple-system,system-ui,sans-serif;padding:40px 10px;}
+  footer{text-align:center;color:#a49c88;font-family:-apple-system,system-ui,sans-serif;font-size:0.7rem;padding:26px 10px 6px;}
+
+  /* ---- grammaire ---- */
+  #grammaire{display:none;}
+  .gsection{display:none;}
+  .gsection.active{display:block;}
+  .g-block{
     background:#fffdf8;
     border:1.5px solid var(--ink);
+    border-radius:10px;
+    padding:16px 16px 14px;
+    margin-bottom:16px;
     box-shadow:3px 3px 0 var(--paper-line);
   }
-  .front .term{
-    font-size:1.12rem;
-    font-weight:700;
-    color:var(--ink);
+  .g-block h2{
     margin:0 0 4px;
+    font-size:1.05rem;
+    color:var(--red);
   }
-  .front .fr-def{
-    font-size:0.86rem;
+  .g-block h3{
+    margin:14px 0 6px;
+    font-size:0.92rem;
+    color:var(--ink);
+    border-bottom:1px dashed var(--paper-line);
+    padding-bottom:3px;
+  }
+  .g-block p{margin:6px 0;line-height:1.55;font-size:0.94rem;}
+  .g-ar{
+    direction:rtl;text-align:right;
+    font-family:'Geeza Pro','Noto Naskh Arabic',Tahoma,sans-serif;
     color:var(--ink-soft);
-    font-style:italic;
-    line-height:1.3;
+    font-size:0.92rem;
+    background:#f1ead7;
+    border-radius:7px;
+    padding:8px 10px;
+    margin:6px 0 10px;
   }
-  .front .tap-hint{
-    position:absolute;
-    bottom:8px;right:12px;
-    font-family:-apple-system, system-ui, sans-serif;
-    font-size:0.65rem;
-    color:#b7ae9a;
+  .g-ex{
+    background:#eef2ea;
+    border-left:3px solid var(--green);
+    padding:6px 10px;
+    margin:6px 0;
+    font-size:0.9rem;
+    border-radius:0 6px 6px 0;
   }
-  .back{
-    background:var(--card-back);
-    color:var(--card-back-text);
-    transform:rotateY(180deg);
-    border-radius:10px;
-    align-items:flex-end;
-    text-align:right;
-    direction:rtl;
+  .g-ex .fr{color:var(--green);font-weight:600;}
+  .g-ex .ar{
+    direction:rtl;text-align:right;
+    font-family:'Geeza Pro','Noto Naskh Arabic',Tahoma,sans-serif;
+    color:var(--ink-soft);
+    display:block;margin-top:2px;font-size:0.85rem;
   }
-  .back .ar{
-    font-size:1.15rem;
-    line-height:1.5;
-    font-family:'Geeza Pro','Noto Naskh Arabic', Tahoma, sans-serif;
-  }
-  .back .term-echo{
-    direction:ltr;
-    text-align:left;
-    font-size:0.7rem;
+  table.g-table{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:0.85rem;font-family:-apple-system,system-ui,sans-serif;}
+  table.g-table th, table.g-table td{border:1px solid var(--paper-line);padding:6px 8px;text-align:left;}
+  table.g-table th{background:#efe7d2;color:var(--ink);}
+  table.g-table td.ar{direction:rtl;text-align:right;font-family:'Geeza Pro','Noto Naskh Arabic',Tahoma,sans-serif;}
+  .note{
+    font-family:-apple-system,system-ui,sans-serif;
+    font-size:0.78rem;
     color:var(--red-soft);
-    font-family:-apple-system, system-ui, sans-serif;
+    background:#fbeee7;
+    border-radius:6px;
+    padding:6px 9px;
     margin-top:6px;
-  }
-  #empty{
-    display:none;
-    text-align:center;
-    color:var(--ink-soft);
-    font-family:-apple-system, system-ui, sans-serif;
-    padding:40px 10px;
-  }
-  footer{
-    text-align:center;
-    color:#a49c88;
-    font-family:-apple-system, system-ui, sans-serif;
-    font-size:0.72rem;
-    padding:26px 10px 6px;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Carnet de vocabulaire <span class="accent">— français</span></h1>
-  <p class="sub">Appuie sur une carte pour voir le sens en arabe. Cherche un mot ci-dessous.</p>
+  <h1>Carnet de français <span class="accent">— B1</span></h1>
+  <p class="sub">Vocabulaire par leçon + fiches de grammaire.</p>
+  <div id="mode-switch">
+    <button class="mode-btn active" id="btn-vocab">📚 Vocabulaire</button>
+    <button class="mode-btn" id="btn-gram">📐 Grammaire</button>
+  </div>
   <input id="search" type="text" placeholder="Chercher un mot... (ex: convaincre)">
 </header>
 
 <nav id="tabs"></nav>
+<nav id="gtabs" style="display:none;padding:12px 18px 0;flex-wrap:wrap;gap:8px;" ></nav>
 
 <main>
-  <div id="lessons"></div>
-  <div id="empty">Aucun mot trouvé.</div>
+  <div id="vocabulaire">
+    <div id="lessons"></div>
+    <div id="empty">Aucun mot trouvé.</div>
+  </div>
+
+  <div id="grammaire">
+
+    <!-- 1. TOUT -->
+    <section class="gsection" data-g="1">
+      <div class="g-block">
+        <h2>1. TOUT — adjectif, pronom, adverbe</h2>
+        <p>« Tout » بيغير شكله حسب دوره في الجملة. فيه 3 استخدامات مختلفة خالص:</p>
+
+        <h3>أ) Tout comme adjectif (صفة تتفق مع الاسم)</h3>
+        <p class="g-ar">بيوصف اسم بعده، وبيتفق معاه في النوع (مذكر/مؤنث) والعدد (مفرد/جمع). معناه "كل".</p>
+        <table class="g-table">
+          <tr><th>الشكل</th><th>يستخدم مع</th><th>مثال</th><th class="ar">المعنى</th></tr>
+          <tr><td>tout</td><td>مذكر مفرد</td><td>tout le monde</td><td class="ar">كل الناس / الجميع</td></tr>
+          <tr><td>toute</td><td>مؤنث مفرد</td><td>toute la journée</td><td class="ar">طول اليوم</td></tr>
+          <tr><td>tous</td><td>مذكر جمع</td><td>tous les jours</td><td class="ar">كل يوم / كل الأيام</td></tr>
+          <tr><td>toutes</td><td>مؤنث جمع</td><td>toutes les fois</td><td class="ar">كل مرة</td></tr>
+        </table>
+
+        <h3>ب) Tout comme pronom (ضمير، شكله ثابت تقريبًا)</h3>
+        <p class="g-ar">بيحل محل اسم مذكور قبل كده أو معنى عام "كل حاجة/كل الناس"، من غير ما يتبعه اسم مباشرة.</p>
+        <div class="g-ex"><span class="fr">Tout va bien.</span><span class="ar">كل حاجة تمام (tout = neutre، كل شيء)</span></div>
+        <div class="g-ex"><span class="fr">Ils sont tous venus.</span><span class="ar">كلهم جم (هنا الـ s في tous بتتنطق /s/، بعكس الصفة اللي متتنطقش)</span></div>
+        <div class="note">فرق النطق: tous (صفة) قبل اسم = ما بتتنطقش الـ s. tous (ضمير، لوحده في آخر الجملة) = بتتنطق.</div>
+
+        <h3>ج) Tout comme adverbe (بمعنى "تمامًا / جدًا")</h3>
+        <p class="g-ar">هنا "tout" مش بيوصف اسم، ده بيوصف صفة أو حال. غالبًا لا يتغير شكله، إلا لو الصفة اللي بعده مؤنثة وبتبدأ بحرف ساكن.</p>
+        <div class="g-ex"><span class="fr">Il est tout content.</span><span class="ar">هو فرحان قوي / تمامًا</span></div>
+        <div class="g-ex"><span class="fr">Elle est toute contente.</span><span class="ar">هي فرحانة قوي (اتغيرت لـ toute لأن "contente" مؤنث وبتبدأ بحرف ساكن)</span></div>
+        <div class="g-ex"><span class="fr">Elle est tout étonnée.</span><span class="ar">هي مندهشة قوي (فضلت tout زي ما هي لأن étonnée بتبدأ بحرف متحرك é)</span></div>
+      </div>
+    </section>
+
+    <!-- 2. GERONDIF -->
+    <section class="gsection" data-g="2">
+      <div class="g-block">
+        <h2>2. Le gérondif</h2>
+        <h3>التكوين</h3>
+        <p><b>en + جذر الفعل مع "nous" في المضارع + ant</b></p>
+        <table class="g-table">
+          <tr><th>الفعل</th><th>nous (présent)</th><th>Gérondif</th></tr>
+          <tr><td>parler</td><td>nous parlons</td><td>en parlant</td></tr>
+          <tr><td>finir</td><td>nous finissons</td><td>en finissant</td></tr>
+          <tr><td>faire</td><td>nous faisons</td><td>en faisant</td></tr>
+          <tr><td>prendre</td><td>nous prenons</td><td>en prenant</td></tr>
+        </table>
+        <p class="note">استثناءات: être → en étant / avoir → en ayant / savoir → en sachant</p>
+
+        <h3>الاستخدامات</h3>
+        <p class="g-ar"><b>1) حدثين في نفس الوقت (simultanéité):</b></p>
+        <div class="g-ex"><span class="fr">Il mange en regardant la télé.</span><span class="ar">بياكل وهو بيتفرج على التلفزيون</span></div>
+
+        <p class="g-ar"><b>2) الطريقة / الوسيلة (manière / moyen):</b></p>
+        <div class="g-ex"><span class="fr">J'ai appris le français en regardant des films.</span><span class="ar">اتعلمت الفرنساوي عن طريق مشاهدة الأفلام</span></div>
+
+        <p class="g-ar"><b>3) الشرط (condition):</b></p>
+        <div class="g-ex"><span class="fr">En travaillant dur, tu réussiras.</span><span class="ar">لو اشتغلت بجد، هتنجح</span></div>
+
+        <div class="note">شرط مهم: الفاعل في الجملتين لازم يكون هو نفسه. "En sortant, j'ai vu Marie" = "أنا" اللي خرج و"أنا" اللي شاف.</div>
+      </div>
+    </section>
+
+    <!-- 3. CAUSE / CONSEQUENCE -->
+    <section class="gsection" data-g="3">
+      <div class="g-block">
+        <h2>3. Cause &amp; Conséquence</h2>
+
+        <h3>La cause — السبب (ليه؟)</h3>
+        <table class="g-table">
+          <tr><th>الأداة</th><th>الاستخدام</th><th class="ar">مثال</th></tr>
+          <tr><td>parce que</td><td>+ جملة، إجابة على "pourquoi؟"</td><td class="ar">Je reste chez moi parce qu'il pleut.</td></tr>
+          <tr><td>car</td><td>+ جملة، رسمي أكتر، مبيبدأش الجملة</td><td class="ar">Il est absent, car il est malade.</td></tr>
+          <tr><td>puisque</td><td>سبب معروف/بديهي للطرفين</td><td class="ar">Puisque tu es là, aide-moi.</td></tr>
+          <tr><td>comme</td><td>في بداية الجملة</td><td class="ar">Comme il pleut, je reste chez moi.</td></tr>
+          <tr><td>grâce à</td><td>+ اسم، سبب إيجابي</td><td class="ar">Il a réussi grâce à son travail.</td></tr>
+          <tr><td>à cause de</td><td>+ اسم، سبب سلبي/محايد</td><td class="ar">Le vol est annulé à cause de la tempête.</td></tr>
+          <tr><td>en raison de</td><td>+ اسم، رسمي جدًا</td><td class="ar">en raison des travaux</td></tr>
+        </table>
+
+        <h3>La conséquence — النتيجة (فبالتالي)</h3>
+        <table class="g-table">
+          <tr><th>الأداة</th><th class="ar">مثال</th></tr>
+          <tr><td>donc</td><td class="ar">Il pleut, donc je reste chez moi.</td></tr>
+          <tr><td>alors</td><td class="ar">شفهي، نفس معنى donc تقريبًا</td></tr>
+          <tr><td>par conséquent</td><td class="ar">رسمي، للكتابة</td></tr>
+          <tr><td>c'est pourquoi</td><td class="ar">لهذا السبب</td></tr>
+          <tr><td>du coup</td><td class="ar">عامية شفهية، شائعة جدًا</td></tr>
+          <tr><td>si bien que</td><td class="ar">لدرجة إن... (+ indicatif)</td></tr>
+          <tr><td>tellement... que / si... que</td><td class="ar">شدة تؤدي لنتيجة: Il est tellement fatigué qu'il dort.</td></tr>
+        </table>
+        <p class="g-ar">قاعدة سريعة: لو الجملة بتجاوب على "ليه؟" (pourquoi) هي سبب. لو بتجاوب على "طب حصل إيه بعد كده؟" هي نتيجة.</p>
+      </div>
+    </section>
+
+    <!-- 4. PRONOMS RELATIFS -->
+    <section class="gsection" data-g="4">
+      <div class="g-block">
+        <h2>4. Les pronoms relatifs</h2>
+        <p class="g-ar">بتربط جملتين وتستبدل تكرار الاسم بضمير واحد.</p>
+
+        <h3>QUI — فاعل الجملة الفرعية</h3>
+        <div class="g-ex"><span class="fr">La fille qui parle est ma sœur.</span><span class="ar">البنت اللي بتتكلم دي أختي (qui = فاعل "parle")</span></div>
+
+        <h3>QUE / QU' — مفعول به مباشر</h3>
+        <div class="g-ex"><span class="fr">Le livre que je lis est intéressant.</span><span class="ar">الكتاب اللي بقراه ممتع (que = مفعول "lis")</span></div>
+
+        <h3>DONT — بيعوض كلمة مسبوقة بـ "de"</h3>
+        <p class="g-ar">لو الفعل أو التعبير بياخد "de" (زي avoir besoin de, parler de, être content de)، نستخدم dont بدل de + الاسم.</p>
+        <div class="g-ex"><span class="fr">C'est le livre dont j'ai besoin.</span><span class="ar">ده الكتاب اللي محتاجه (avoir besoin DE)</span></div>
+        <div class="g-ex"><span class="fr">La fille dont je parle est ma collègue.</span><span class="ar">البنت اللي بتكلم عنها زميلتي (parler DE)</span></div>
+
+        <h3>OÙ — مكان أو زمان</h3>
+        <div class="g-ex"><span class="fr">La ville où j'habite est calme.</span><span class="ar">المدينة اللي بسكن فيها هادية</span></div>
+        <div class="g-ex"><span class="fr">Le jour où je suis né...</span><span class="ar">اليوم اللي اتولدت فيه...</span></div>
+
+        <h3>LEQUEL / LAQUELLE / LESQUELS / LESQUELLES — بعد حرف جر (غالبًا للأشياء)</h3>
+        <div class="g-ex"><span class="fr">Le stylo avec lequel j'écris.</span><span class="ar">القلم اللي بكتب بيه</span></div>
+        <table class="g-table">
+          <tr><th>مع à</th><th>مع de</th></tr>
+          <tr><td>auquel</td><td>duquel</td></tr>
+          <tr><td>à laquelle</td><td>de laquelle</td></tr>
+          <tr><td>auxquels</td><td>desquels</td></tr>
+          <tr><td>auxquelles</td><td>desquelles</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. DE vs A -->
+    <section class="gsection" data-g="5">
+      <div class="g-block">
+        <h2>5. DE vs À — المكوّن مقابل الوظيفة</h2>
+        <p class="g-ar"><b>de</b> = بيوصف المحتوى/المادة اللي فيها الشيء فعلاً (composition réelle).<br>
+        <b>à</b> = بيوصف الوظيفة أو الغرض اللي الشيء مخصص له (حتى لو فاضي).</p>
+
+        <table class="g-table">
+          <tr><th>de (محتوى/مادة)</th><th class="ar">المعنى</th><th>à (وظيفة/غرض)</th><th class="ar">المعنى</th></tr>
+          <tr><td>une tasse de café</td><td class="ar">فنجان فيه قهوة فعلاً</td><td>une tasse à café</td><td class="ar">فنجان مخصص للقهوة (ممكن يكون فاضي)</td></tr>
+          <tr><td>un verre de vin</td><td class="ar">كاس فيها نبيذ</td><td>un verre à vin</td><td class="ar">كاس مخصصة للنبيذ (فاضية)</td></tr>
+          <tr><td>une boîte de chocolats</td><td class="ar">علبة فيها شوكولاتة</td><td>une boîte à outils</td><td class="ar">صندوق مخصص للعدة</td></tr>
+        </table>
+
+        <h3>استخدامات تانية مهمة لـ "de"</h3>
+        <p class="g-ar">الأصل / المصدر: <span style="direction:ltr;display:inline-block">je viens de Bangui</span> — الملكية: <span style="direction:ltr;display:inline-block">le sac de Marie</span> — السبب أحيانًا: <span style="direction:ltr;display:inline-block">mourir de faim</span></p>
+
+        <h3>استخدامات تانية مهمة لـ "à"</h3>
+        <p class="g-ar">طريقة الطهي/التحضير: <span style="direction:ltr;display:inline-block">poulet à la crème</span> — صفة مميزة ثابتة: <span style="direction:ltr;display:inline-block">la fille aux yeux bleus</span> — المكان/الاتجاه: <span style="direction:ltr;display:inline-block">aller à Paris</span></p>
+
+        <div class="note">قاعدة سريعة للمراجعة: اسأل نفسك "هل الكلمة دي بتوصف اللي *جوه* الشيء ولا اللي الشيء *مخصص له*؟" — جوّه = de، مخصص له = à.</div>
+      </div>
+    </section>
+
+    <!-- 6. REVISION TEMPS -->
+    <section class="gsection" data-g="6">
+      <div class="g-block">
+        <h2>6. مراجعة الأزمنة (A1–A2)</h2>
+
+        <h3>Le passé composé</h3>
+        <p class="g-ar">التكوين: <b>avoir</b> أو <b>être</b> (في المضارع) + participe passé</p>
+        <table class="g-table">
+          <tr><th>نهاية الفعل في المصدر</th><th>participe passé</th><th>مثال</th></tr>
+          <tr><td>-er</td><td>-é</td><td>parler → parlé</td></tr>
+          <tr><td>-ir</td><td>-i</td><td>finir → fini</td></tr>
+          <tr><td>-re</td><td>-u</td><td>vendre → vendu</td></tr>
+        </table>
+        <p class="note">أفعال شاذة شائعة: fait (faire), dit (dire), pris (prendre), mis (mettre), vu (voir), été (être), eu (avoir)</p>
+        <p class="g-ar">أفعال بتتصرف بـ <b>être</b> (وبيتفق الـ participe مع الفاعل): أفعال الحركة/التغيير (aller, venir, arriver, partir, entrer, sortir, monter, descendre, naître, mourir, rester, retourner, tomber...) + كل الأفعال الانعكاسية (se lever, se laver...)</p>
+        <div class="g-ex"><span class="fr">Elle est partie tôt.</span><span class="ar">هي مشيت بدري (اتفق الفعل مع "elle" فاتضافت e)</span></div>
+        <div class="g-ex"><span class="fr">J'ai mangé une pomme.</span><span class="ar">أكلت تفاحة (avoir، من غير اتفاق)</span></div>
+
+        <h3>L'imparfait</h3>
+        <p class="g-ar">التكوين: جذر "nous" في المضارع (من غير ons) + نهايات: -ais, -ais, -ait, -ions, -iez, -aient</p>
+        <p class="g-ar">بيستخدم للوصف والعادة في الماضي (حاجة كانت بتتكرر أو حالة مستمرة)، بعكس passé composé اللي بيوصف حدث محدد وخلص.</p>
+        <div class="g-ex"><span class="fr">Quand j'étais petit, je jouais dehors tous les jours.</span><span class="ar">لما كنت صغير، كنت بلعب برا كل يوم (عادة/وصف)</span></div>
+        <div class="g-ex"><span class="fr">Hier, j'ai joué au foot.</span><span class="ar">إمبارح لعبت كورة (حدث محدد وخلص)</span></div>
+
+        <h3>Le futur simple</h3>
+        <p class="g-ar">التكوين: المصدر (infinitif) + نهايات: -ai, -as, -a, -ons, -ez, -ont. (أفعال -re بتشيل الـ e الأخيرة الأول)</p>
+        <table class="g-table">
+          <tr><th>الفعل</th><th>جذر Futur</th></tr>
+          <tr><td>être</td><td>ser-</td></tr>
+          <tr><td>avoir</td><td>aur-</td></tr>
+          <tr><td>aller</td><td>ir-</td></tr>
+          <tr><td>faire</td><td>fer-</td></tr>
+          <tr><td>venir</td><td>viendr-</td></tr>
+          <tr><td>pouvoir</td><td>pourr-</td></tr>
+          <tr><td>vouloir</td><td>voudr-</td></tr>
+          <tr><td>voir</td><td>verr-</td></tr>
+          <tr><td>devoir</td><td>devr-</td></tr>
+          <tr><td>savoir</td><td>saur-</td></tr>
+        </table>
+        <div class="g-ex"><span class="fr">Je viendrai demain.</span><span class="ar">هاجي بكرة</span></div>
+
+        <h3>Le futur proche (تذكير A1)</h3>
+        <p class="g-ar">aller (في المضارع) + infinitif — لحدث قريب أو مؤكد</p>
+        <div class="g-ex"><span class="fr">Je vais partir dans dix minutes.</span><span class="ar">هامشي بعد عشر دقايق</span></div>
+
+        <h3>Le conditionnel présent (مراجعة إضافية)</h3>
+        <p class="g-ar">نفس جذر futur + نهايات imparfait (-ais, -ais, -ait, -ions, -iez, -aient) — للأدب/الافتراض/الطلب المهذب</p>
+        <div class="g-ex"><span class="fr">Je voudrais un café, s'il vous plaît.</span><span class="ar">حابب/عايز قهوة لو سمحت (أسلوب مهذب)</span></div>
+      </div>
+    </section>
+
+  </div>
 </main>
 
-<footer>7 leçons · appuie pour retourner la carte</footer>
+<footer id="foot-text">17 leçons · appuie pour retourner la carte</footer>
 
 <script>
 const DATA = [
@@ -248,7 +443,7 @@ const DATA = [
 {c:1, t:"toucher", fr:"émouvoir, affecter émotionnellement", ar:"يمس / يؤثر في"},
 
 {c:2, t:"les rimes", fr:"sons identiques à la fin de deux vers ou mots", ar:"القافية"},
-{c:2, t:"saccadé(e)", fr:"qui se fait par à-coups, de façon irrégulière (ex: parler de façon saccadée)", ar:"متقطّع (في الكلام)"},
+{c:2, t:"saccadé(e)", fr:"qui se fait par à-coups, de façon irrégulière (parler de façon saccadée)", ar:"متقطّع (في الكلام)"},
 {c:2, t:"s'amuser avec des mots", fr:"jouer avec le langage, faire des jeux de mots", ar:"يلعب بالكلمات"},
 {c:2, t:"faire du théâtre", fr:"jouer la comédie, pratiquer l'art dramatique", ar:"يمثّل (مسرح)"},
 {c:2, t:"le tronc (des arbres)", fr:"partie principale et verticale de l'arbre", ar:"جذع الشجرة"},
@@ -289,7 +484,7 @@ const DATA = [
 {c:4, t:"se retrouver", fr:"se réunir de nouveau après une séparation", ar:"يجتمعان من جديد (لمّ الشمل)"},
 {c:4, t:"appartenir", fr:"faire partie de quelque chose", ar:"ينتمي إلى"},
 
-{c:5, t:"les manches", fr:"parties d'un vêtement qui couvrent les bras (ex: manches d'un t-shirt)", ar:"كم القميص"},
+{c:5, t:"les manches", fr:"parties d'un vêtement qui couvrent les bras", ar:"كم القميص"},
 {c:5, t:"un(e) intellectuel(le)", fr:"personne dont le métier ou la vie repose sur la réflexion", ar:"مثقف"},
 {c:5, t:"le livreur / la livreuse", fr:"personne qui livre des colis ou des repas", ar:"مندوب توصيل"},
 {c:5, t:"banal(e)", fr:"ordinaire, sans importance particulière", ar:"عادي / تافه"},
@@ -350,12 +545,208 @@ const DATA = [
 {c:7, t:"les couchettes", fr:"lits superposés sur un bateau ou un train", ar:"أسرّة (على متن السفينة/القطار)"},
 {c:7, t:"le fond de cale", fr:"partie la plus basse et fermée d'un bateau", ar:"قاع السفينة (العنبر)"},
 {c:7, t:"le pilotage", fr:"action de piloter un bateau, un avion, un véhicule", ar:"قيادة / ملاحة"},
+
+{c:8, t:"l'authenticité", fr:"qualité de ce qui est vrai, sincère, non calculé", ar:"الأصالة / الصدق مع الذات"},
+{c:8, t:"paresseux(se)", fr:"qui n'aime pas faire d'efforts, qui évite le travail", ar:"كسول"},
+{c:8, t:"prudent(e)", fr:"qui agit avec précaution, qui évite les risques", ar:"حذِر"},
+{c:8, t:"virer (qqn)", fr:"(familier) renvoyer quelqu'un de son travail", ar:"يفصل من الشغل / يطرد"},
+{c:8, t:"démissionner", fr:"quitter volontairement son emploi", ar:"يستقيل"},
+{c:8, t:"un cliché", fr:"idée toute faite, stéréotype répété sans réflexion", ar:"فكرة نمطية / كليشيه"},
+{c:8, t:"chômeur / chômeuse", fr:"personne sans emploi, qui cherche du travail", ar:"عاطل عن العمل"},
+{c:8, t:"je n'osais pas dire", fr:"je n'avais pas le courage de dire", ar:"ما كنتش أجرؤ أقول"},
+{c:8, t:"s'autocensurer", fr:"se retenir de s'exprimer par peur du jugement des autres", ar:"يراقب نفسه خوفًا من حكم الناس"},
+{c:8, t:"une reconversion", fr:"changement de métier, nouvelle orientation professionnelle", ar:"تغيير المسار المهني"},
+{c:8, t:"hyper dynamique", fr:"très actif, plein d'énergie", ar:"نشيط جدًا"},
+{c:8, t:"ça m'étonne", fr:"cela me surprend", ar:"ده بيستغربني"},
+{c:8, t:"déprimant(e)", fr:"qui rend triste, qui donne le cafard", ar:"محبط"},
+{c:8, t:"jouasse", fr:"(argot) content(e), joyeux(se)", ar:"فرحان / مبسوط (عامية)"},
+
+{c:9, t:"capter / prendre le son", fr:"enregistrer un son (contexte radio, podcast)", ar:"يسجّل صوت"},
+{c:9, t:"avoir l'impression que", fr:"croire que, ressentir que", ar:"يحس إن / يشعر أن"},
+{c:9, t:"avoir la chance de", fr:"avoir l'opportunité de", ar:"يكون عنده الفرصة إن"},
+{c:9, t:"avoir l'air", fr:"sembler, paraître", ar:"يبدو"},
+{c:9, t:"réagir", fr:"répondre à une situation, avoir une réaction", ar:"يتفاعل / يرد فعل"},
+{c:9, t:"impliqué(e)", fr:"engagé(e) dans une activité, concerné(e)", ar:"منخرط / معني بـ"},
+{c:9, t:"l'enthousiasme", fr:"énergie joyeuse et motivée", ar:"حماس"},
+{c:9, t:"intégrer", fr:"faire entrer dans un groupe, s'adapter à un nouvel environnement", ar:"يندمج / ينضم إلى"},
+{c:9, t:"séparer (= faire virer)", fr:"renvoyer quelqu'un de son poste", ar:"يفصل شخص من شغله"},
+{c:9, t:"alléger la masse salariale", fr:"réduire le nombre d'employés ou les salaires pour diminuer les coûts", ar:"تقليل المرتبات/عدد الموظفين لتخفيف التكاليف"},
+{c:9, t:"un guichet", fr:"comptoir où l'on est reçu dans une administration, une banque", ar:"شباك (بنك/مصلحة)"},
+{c:9, t:"faire autrement", fr:"agir d'une manière différente", ar:"يعمل بطريقة مختلفة"},
+{c:9, t:"s'arranger", fr:"trouver une solution, s'organiser", ar:"يدبر أموره / يرتب الأمور"},
+{c:9, t:"abasourdi(e)", fr:"très surpris(e), choqué(e) au point d'être sans réaction", ar:"مصدوم / مذهول"},
+{c:9, t:"faire des concessions", fr:"accepter de céder sur certains points", ar:"يتنازل / يتساهل (يتاطي)"},
+{c:9, t:"l'ambition", fr:"désir fort de réussir, d'atteindre un objectif", ar:"الطموح"},
+{c:9, t:"se résigner (accepter la situation)", fr:"accepter une situation qu'on ne peut pas changer", ar:"يتقبل / يستسلم للوضع"},
+{c:9, t:"avoir bon dos (ma tête avait bon dos)", fr:"expression : servir de prétexte, être blâmé à tort", ar:"يتحمّل اللوم ظلمًا (بيتعمل شماعة)"},
+{c:9, t:"l'humiliation", fr:"sentiment de honte causé par un traitement dégradant", ar:"إهانة"},
+{c:9, t:"chirurgien(ne)", fr:"médecin spécialisé dans les opérations", ar:"جرّاح"},
+{c:9, t:"l'alimentation (= nourriture)", fr:"ce qu'on mange", ar:"التغذية / الأكل"},
+{c:9, t:"une œuvre", fr:"une création artistique ou littéraire", ar:"عمل فني/أدبي"},
+{c:9, t:"surchargé(e) de travail", fr:"qui a trop de travail, au-delà de sa capacité", ar:"محمّل فوق طاقته بالشغل"},
+
+{c:10, t:"la rigologie", fr:"discipline qui utilise le rire pour le bien-être (yoga du rire)", ar:"علم الضحك (لتحسين الحالة النفسية)"},
+{c:10, t:"le bien-être", fr:"état de santé physique et mentale agréable", ar:"الصحة النفسية والجسدية"},
+{c:10, t:"incontournable", fr:"qu'on ne peut pas éviter, indispensable", ar:"لا غنى عنه"},
+{c:10, t:"la détente", fr:"moment de repos, relaxation", ar:"الاسترخاء"},
+{c:10, t:"appréhender", fr:"selon le contexte : « craindre » ou « aborder/comprendre » une situation", ar:"يخاف من / يتعامل مع (حسب السياق)"},
+{c:10, t:"corporel(le)", fr:"relatif au corps", ar:"متعلق بالجسد"},
+{c:10, t:"s'échauffer", fr:"préparer son corps avant un effort physique", ar:"يسخّن (قبل الرياضة)"},
+{c:10, t:"frotter", fr:"passer une chose contre une autre avec pression", ar:"يفرك / يحك"},
+{c:10, t:"abdominal(e)", fr:"relatif au ventre (les abdominaux = muscles du ventre)", ar:"بطني (متعلق بالبطن)"},
+{c:10, t:"taper des mains", fr:"applaudir", ar:"يصفق"},
+{c:10, t:"centré(e)", fr:"concentré(e) sur un point précis", ar:"مركّز"},
+{c:10, t:"une pommade", fr:"crème médicale qu'on applique sur la peau", ar:"مرهم"},
+{c:10, t:"accessible", fr:"facile à atteindre ou à faire, à la portée de tous", ar:"سهل المنال / متاح"},
+{c:10, t:"disperser", fr:"répandre dans plusieurs directions", ar:"يبعثر / يوزع"},
+{c:10, t:"frustrant(e)", fr:"qui provoque de la frustration, décevant", ar:"محبط"},
+{c:10, t:"paru (participe passé de paraître)", fr:"sembler, avoir l'air (au passé)", ar:"بدا / ظهر"},
+
+{c:11, t:"je n'en peux plus", fr:"je suis épuisé(e), à bout", ar:"مبقتش قادر أستحمل"},
+{c:11, t:"coucher", fr:"aller au lit, dormir", ar:"ينام"},
+{c:11, t:"débordé(e)", fr:"qui a trop de choses à faire, dépassé(e) par les événements", ar:"مزنوق / غرقان في الشغل"},
+{c:11, t:"reposant(e)", fr:"qui permet de se reposer, relaxant", ar:"مريح"},
+{c:11, t:"j'en ai ras le bol", fr:"(expression familière) j'en ai assez, je suis exaspéré(e)", ar:"زهقت خالص"},
+{c:11, t:"on verra", fr:"on va attendre pour voir ce qui se passe", ar:"هنشوف"},
+{c:11, t:"soulagé(e)", fr:"qui ressent un grand soulagement après une inquiétude", ar:"مرتاح (بعد قلق)"},
+{c:11, t:"monoparental(e)", fr:"(famille monoparentale) famille avec un seul parent", ar:"أسرة أحادية الوالد"},
+{c:11, t:"versé(e)", fr:"(argent) transféré, payé", ar:"مدفوع/محوّل (فلوس)"},
+{c:11, t:"une allocation", fr:"somme d'argent versée par l'État à une personne", ar:"إعانة مالية / منحة"},
+{c:11, t:"agacé(e) (= dérangé(e))", fr:"qui ressent de l'irritation", ar:"منزعج"},
+{c:11, t:"provenir de", fr:"venir de, avoir son origine dans", ar:"ينبع من / يأتي من"},
+{c:11, t:"le fruit de leur travail", fr:"le résultat de leurs efforts", ar:"ثمرة تعبهم"},
+{c:11, t:"la maturité", fr:"le fait d'être adulte dans sa façon de penser et d'agir", ar:"النضج"},
+{c:11, t:"un trait (de caractère)", fr:"une caractéristique de la personnalité", ar:"سمة (من سمات الشخصية)"},
+{c:11, t:"mythomane", fr:"personne qui a tendance à mentir de façon compulsive", ar:"كذّاب مرضي"},
+{c:11, t:"construire", fr:"bâtir, édifier (au sens propre ou figuré : construire une relation)", ar:"يبني"},
+
+{c:12, t:"racler", fr:"gratter une surface pour enlever ce qui y adhère", ar:"يكشط / يحك"},
+{c:12, t:"une roche", fr:"une pierre, une masse minérale", ar:"صخرة"},
+{c:12, t:"un refuge", fr:"abri, lieu où l'on se met à l'abri du danger", ar:"ملجأ"},
+{c:12, t:"spirituel(le)", fr:"relatif à l'esprit, à la religion ou à la réflexion profonde", ar:"روحاني"},
+{c:12, t:"en frottant", fr:"en frictionnant, par le frottement", ar:"بالحك / بالفرك"},
+{c:12, t:"le plus profond", fr:"la partie la plus basse ou la plus intérieure", ar:"الأعمق"},
+{c:12, t:"en grande autonomie, à l'abri", fr:"de façon indépendante, protégé(e)", ar:"باستقلالية كبيرة ومحمي"},
+{c:12, t:"le recyclage", fr:"transformation des déchets pour les réutiliser", ar:"إعادة التدوير"},
+{c:12, t:"un déchet", fr:"ce qu'on jette, un résidu inutile", ar:"نفايات"},
+{c:12, t:"des tongs", fr:"sandales légères de plage", ar:"شبشب شاطئ"},
+{c:12, t:"déversé(e)", fr:"versé en grande quantité, rejeté (ex : déchets déversés dans la mer)", ar:"مصبوب / ملقى (في البحر مثلاً)"},
+{c:12, t:"les mangroves", fr:"forêts qui poussent dans l'eau salée près des côtes tropicales", ar:"غابات المانغروف"},
+{c:12, t:"un laboratoire", fr:"lieu où l'on fait des recherches scientifiques", ar:"مختبر / معمل"},
+
+{c:13, t:"une sculpture", fr:"œuvre d'art en trois dimensions", ar:"نحت"},
+{c:13, t:"dénoncer", fr:"signaler publiquement quelque chose de mal", ar:"يستنكر / يشجب"},
+{c:13, t:"une baleine", fr:"grand mammifère marin", ar:"حوت"},
+{c:13, t:"un concours", fr:"compétition, épreuve", ar:"مسابقة"},
+{c:13, t:"triennal(e)", fr:"qui a lieu tous les trois ans", ar:"كل ثلاث سنوات"},
+{c:13, t:"une compétition", fr:"confrontation pour être le meilleur", ar:"منافسة"},
+{c:13, t:"concevoir", fr:"créer, imaginer un projet", ar:"يصمم / يتصور"},
+{c:13, t:"une accumulation", fr:"fait de s'accumuler, de s'amasser", ar:"تراكم"},
+{c:13, t:"dénaturer (≠ nature)", fr:"altérer, déformer la nature véritable de quelque chose", ar:"يشوّه (طبيعة الشيء)"},
+{c:13, t:"un gratte-ciel", fr:"très haut immeuble", ar:"ناطحة سحاب"},
+{c:13, t:"les ordures (= déchets)", fr:"déchets, ce qu'on jette", ar:"قمامة / نفايات"},
+{c:13, t:"sale", fr:"qui n'est pas propre", ar:"متسخ / وسخ"},
+{c:13, t:"des résidus", fr:"restes, ce qui reste après un processus", ar:"مخلفات / بقايا"},
+{c:13, t:"le sur-emballage", fr:"emballage excessif, superflu", ar:"تغليف زائد عن الحاجة"},
+{c:13, t:"le surpoids", fr:"poids supérieur à la normale", ar:"زيادة في الوزن"},
+{c:13, t:"surprendre", fr:"étonner quelqu'un", ar:"يفاجئ"},
+{c:13, t:"enlever", fr:"retirer, ôter quelque chose", ar:"يشيل / يقلع"},
+{c:13, t:"la prise", fr:"prise électrique", ar:"فيشة كهرباء"},
+{c:13, t:"concerner", fr:"avoir un rapport avec, toucher quelqu'un/quelque chose", ar:"يخص / يتعلق بـ"},
+{c:13, t:"gaspiller", fr:"utiliser sans nécessité, perdre inutilement", ar:"يبذّر / يهدر"},
+{c:13, t:"se loger", fr:"trouver un logement, habiter quelque part", ar:"يسكن"},
+{c:13, t:"un geste", fr:"mouvement du corps, ou action symbolique", ar:"إيماءة / تصرف له معنى"},
+{c:13, t:"mobiliser", fr:"rassembler des personnes pour une action commune", ar:"يحشد / يعبّئ الناس"},
+{c:13, t:"trier", fr:"classer, séparer selon des catégories (ex : trier les déchets)", ar:"يفرز"},
+{c:13, t:"maraîcher(ère)", fr:"personne qui cultive des légumes", ar:"بائع/مزارع خضروات"},
+{c:13, t:"se reposer", fr:"se détendre, prendre du repos", ar:"يرتاح"},
+
+{c:14, t:"la permanence", fr:"continuité dans le temps, ce qui dure sans interruption", ar:"الاستمرارية / الدوام"},
+{c:14, t:"un verger", fr:"terrain planté d'arbres fruitiers", ar:"بستان فاكهة"},
+{c:14, t:"le jardinage", fr:"activité de cultiver un jardin", ar:"البستنة"},
+{c:14, t:"le potager", fr:"jardin où l'on cultive des légumes", ar:"حديقة خضروات منزلية"},
+{c:14, t:"la curiosité", fr:"désir de connaître, d'apprendre, de découvrir", ar:"الفضول"},
+{c:14, t:"la théorie (= études)", fr:"ensemble d'idées, connaissance abstraite (par opposition à la pratique)", ar:"النظرية"},
+{c:14, t:"imprégné(e)", fr:"qui a absorbé, qui s'est laissé influencer profondément", ar:"متشرب / متأثر بعمق"},
+{c:14, t:"l'accomplir", fr:"mener à terme, réaliser complètement un projet", ar:"ينجز / يحقق"},
+{c:14, t:"valoriser", fr:"donner de l'importance, faire ressortir la qualité de", ar:"يبرز قيمة / يثمّن"},
+{c:14, t:"mutualisé(e)", fr:"partagé(e) en commun entre plusieurs personnes", ar:"مشترك (بين عدة أطراف)"},
+{c:14, t:"séduit(e)", fr:"attiré(e), charmé(e) par quelque chose", ar:"منجذب / مفتون بـ"},
+{c:14, t:"tondre (l'herbe, les arbres)", fr:"couper l'herbe ou tailler les arbres", ar:"يجزّ / يقص العشب أو الشجر"},
+{c:14, t:"trouver sa niche", fr:"trouver un secteur spécialisé où l'on réussit", ar:"يجد مجاله المتخصص الناجح"},
+{c:14, t:"lisible", fr:"facile à comprendre ou à repérer, clair", ar:"واضح / يُلاحظ بسهولة"},
+{c:14, t:"le hasard", fr:"ce qui arrive sans être prévu", ar:"الصدفة"},
+{c:14, t:"un gîte", fr:"logement touristique à la campagne, un abri", ar:"مسكن ريفي / مأوى"},
+{c:14, t:"rudimentaire", fr:"très simple, basique", ar:"بدائي / بسيط جدًا"},
+{c:14, t:"un écart", fr:"distance, différence entre deux choses", ar:"فجوة / مسافة بين شيئين"},
+
+{c:15, t:"un vilain défaut", fr:"un mauvais trait de caractère", ar:"عيب سيء (في الشخصية)"},
+{c:15, t:"enrichir", fr:"rendre plus riche (en savoir, en contenu)", ar:"يُثري"},
+{c:15, t:"inutile(s)", fr:"qui ne sert à rien", ar:"غير مهم / عديم الفائدة"},
+{c:15, t:"une trottinette", fr:"petit véhicule à deux roues qu'on pousse avec le pied", ar:"سكوتر / أوتوستيب"},
+{c:15, t:"le sommeil", fr:"l'état de dormir", ar:"النوم"},
+{c:15, t:"bouger", fr:"se déplacer, faire du mouvement", ar:"يتحرك"},
+{c:15, t:"un maillot", fr:"vêtement de sport (ex : maillot de bain, maillot de foot)", ar:"قميص رياضي (أو مايوه)"},
+{c:15, t:"un grimpeur", fr:"personne qui grimpe, qui fait de l'escalade", ar:"متسلق"},
+{c:15, t:"des miettes", fr:"petits morceaux qui tombent d'un aliment (ex : pain)", ar:"فتات"},
+{c:15, t:"un(e) astronaute", fr:"personne qui voyage dans l'espace", ar:"رائد فضاء"},
+{c:15, t:"un ventilateur", fr:"appareil qui brasse l'air pour rafraîchir", ar:"مروحة"},
+{c:15, t:"une expédition", fr:"voyage organisé dans un but précis (exploration, science)", ar:"رحلة استكشافية"},
+{c:15, t:"l'aération", fr:"fait de faire circuler l'air dans un lieu", ar:"التهوية"},
+
+{c:16, t:"un poète / la poésie", fr:"poète = personne qui écrit des poèmes ; poétique (adj.) = relatif à la poésie", ar:"شاعر / شعري"},
+{c:16, t:"une émission télévisée", fr:"programme diffusé à la télévision", ar:"برنامج تلفزيوني"},
+{c:16, t:"des amateurs à un professionnel", fr:"du niveau amateur jusqu'au niveau professionnel", ar:"من الهواة للمحترفين"},
+{c:16, t:"thématique", fr:"qui se rapporte à un thème précis", ar:"موضوعي / له موضوع محدد"},
+{c:16, t:"le gai savoir", fr:"expression : la joie d'apprendre, le plaisir du savoir", ar:"متعة المعرفة"},
+{c:16, t:"la frustration", fr:"sentiment de déception, d'insatisfaction", ar:"الإحباط"},
+{c:16, t:"inédit(e)", fr:"qui n'a jamais été fait ou vu avant", ar:"غير مسبوق / جديد كليًا"},
+{c:16, t:"un défi", fr:"un challenge à relever", ar:"تحدي"},
+{c:16, t:"mêler", fr:"combiner, mélanger plusieurs éléments", ar:"يمزج / يخلط"},
+{c:16, t:"une immersion", fr:"fait de plonger complètement dans une expérience", ar:"الانغماس (في تجربة/قصة)"},
+{c:16, t:"fascinant(e)", fr:"qui suscite une grande admiration, très attirant", ar:"ساحر / مبهر"},
+{c:16, t:"la pédagogie", fr:"méthode et art d'enseigner", ar:"أساليب التدريس / التربية"},
+{c:16, t:"une affirmation", fr:"déclaration ferme, énoncé positif", ar:"تأكيد / جزم"},
+{c:16, t:"une humeur", fr:"état d'esprit passager (bonne/mauvaise humeur)", ar:"المزاج"},
+{c:16, t:"un marteau", fr:"outil pour planter des clous", ar:"شاكوش / مطرقة"},
+{c:16, t:"civique", fr:"relatif aux droits et devoirs du citoyen", ar:"مدني (متعلق بالمواطنة)"},
+{c:16, t:"indiscret(ète)", fr:"qui manque de discrétion, curieux des affaires des autres", ar:"فضولي / يفشي الأسرار"},
+{c:16, t:"déconner", fr:"(familier) dire ou faire des bêtises, plaisanter", ar:"يهزر / يعمل حاجات غريبة (عامية)"},
+{c:16, t:"gothique", fr:"style architectural médiéval (ou style vestimentaire sombre)", ar:"قوطي (طراز معماري)"},
+{c:16, t:"la douceur de la Seine", fr:"le charme paisible et calme du fleuve la Seine", ar:"عذوبة/هدوء نهر السين"},
+{c:16, t:"une charpente", fr:"structure en bois qui soutient un toit", ar:"الهيكل الخشبي للسقف"},
+{c:16, t:"la renommée", fr:"la réputation, la notoriété", ar:"الشهرة"},
+{c:16, t:"un trou dans le paysage", fr:"une ouverture, un espace vide dans le décor naturel", ar:"فجوة في المنظر الطبيعي"},
+{c:16, t:"une grotte", fr:"cavité naturelle dans la roche", ar:"كهف"},
+{c:16, t:"des buffles", fr:"grands bovins sauvages", ar:"جاموس بري"},
+{c:16, t:"les gosses", fr:"(familier) les enfants", ar:"العيال / الأطفال (عامية)"},
+
+{c:17, t:"entretenir", fr:"prendre soin de quelque chose pour le maintenir en bon état", ar:"يعتني بـ / يصون"},
+{c:17, t:"une splendeur", fr:"beauté éclatante, quelque chose de magnifique", ar:"روعة / فخامة"},
+{c:17, t:"un défaut", fr:"un manque, une imperfection", ar:"عيب"},
+{c:17, t:"polir", fr:"rendre lisse et brillant", ar:"يلمّع"},
+{c:17, t:"des lentilles (de contact)", fr:"verres de contact posés directement sur l'œil", ar:"عدسات لاصقة"},
+{c:17, t:"un tracteur", fr:"véhicule agricole pour tirer des outils", ar:"جرار زراعي"},
+{c:17, t:"un soudeur", fr:"personne qui fait de la soudure", ar:"لحام (مهنة)"},
+{c:17, t:"le morse (= le code)", fr:"code de communication par signaux", ar:"شفرة مورس"},
+{c:17, t:"parcourir", fr:"traverser, voyager à travers un lieu", ar:"يجوب / يقطع مسافة"},
+{c:17, t:"dominical(e)", fr:"relatif au dimanche", ar:"متعلق بيوم الأحد"},
+{c:17, t:"une accolade", fr:"embrassade amicale", ar:"عناق"},
+{c:17, t:"grimper", fr:"monter en s'agrippant", ar:"يتسلق"},
+{c:17, t:"une chute", fr:"fait de tomber", ar:"سقوط"},
+{c:17, t:"des attentats", fr:"actes de terrorisme violents", ar:"هجمات إرهابية"},
 ];
 
 const lessonsEl = document.getElementById('lessons');
 const tabsEl = document.getElementById('tabs');
 const searchEl = document.getElementById('search');
 const emptyEl = document.getElementById('empty');
+const footEl = document.getElementById('foot-text');
+const btnVocab = document.getElementById('btn-vocab');
+const btnGram = document.getElementById('btn-gram');
+const vocabEl = document.getElementById('vocabulaire');
+const gramEl = document.getElementById('grammaire');
+const gtabsEl = document.getElementById('gtabs');
 
 const lessonNums = [...new Set(DATA.map(d=>d.c))];
 
@@ -365,7 +756,7 @@ function makeTab(n, active){
   b.textContent = n === 'all' ? 'Tout' : 'Leçon ' + n;
   b.dataset.val = n;
   b.onclick = () => {
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.remove('active'));
     b.classList.add('active');
     render();
   };
@@ -376,7 +767,7 @@ tabsEl.appendChild(makeTab('all', true));
 lessonNums.forEach(n => tabsEl.appendChild(makeTab(n, false)));
 
 function currentTab(){
-  const active = document.querySelector('.tab.active');
+  const active = document.querySelector('#tabs .tab.active');
   return active ? active.dataset.val : 'all';
 }
 
@@ -432,6 +823,52 @@ function makeCard(d){
 
 searchEl.addEventListener('input', render);
 render();
+
+/* ---- grammaire tabs ---- */
+const gramTitles = {
+  1:"1. Tout",
+  2:"2. Gérondif",
+  3:"3. Cause/Cons.",
+  4:"4. Relatifs",
+  5:"5. de / à",
+  6:"6. Temps"
+};
+Object.keys(gramTitles).forEach((id, idx) => {
+  const b = document.createElement('button');
+  b.className = 'tab' + (idx===0 ? ' active':'');
+  b.textContent = gramTitles[id];
+  b.dataset.g = id;
+  b.onclick = () => {
+    document.querySelectorAll('#gtabs .tab').forEach(t=>t.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.gsection').forEach(s=>s.classList.remove('active'));
+    document.querySelector('.gsection[data-g="'+id+'"]').classList.add('active');
+  };
+  gtabsEl.appendChild(b);
+});
+document.querySelector('.gsection[data-g="1"]').classList.add('active');
+
+/* ---- mode switch ---- */
+btnVocab.onclick = () => {
+  btnVocab.classList.add('active');
+  btnGram.classList.remove('active');
+  vocabEl.style.display = 'block';
+  gramEl.style.display = 'none';
+  tabsEl.style.display = 'flex';
+  gtabsEl.style.display = 'none';
+  searchEl.style.display = 'block';
+  footEl.textContent = '17 leçons · appuie pour retourner la carte';
+};
+btnGram.onclick = () => {
+  btnGram.classList.add('active');
+  btnVocab.classList.remove('active');
+  vocabEl.style.display = 'none';
+  gramEl.style.display = 'block';
+  tabsEl.style.display = 'none';
+  gtabsEl.style.display = 'flex';
+  searchEl.style.display = 'none';
+  footEl.textContent = '6 fiches de grammaire';
+};
 </script>
 </body>
 </html>
