@@ -189,6 +189,8 @@
     border-radius:6px;
     padding:6px 9px;
     margin-top:6px;
+    direction:rtl;
+    text-align:right;
   }
 </style>
 </head>
@@ -219,7 +221,7 @@
     <section class="gsection" data-g="1">
       <div class="g-block">
         <h2>1. TOUT — adjectif, pronom, adverbe</h2>
-        <p>« Tout » بيغير شكله حسب دوره في الجملة. فيه 3 استخدامات مختلفة خالص:</p>
+        <p class="g-ar">« Tout » بيغير شكله حسب دوره في الجملة. فيه 3 استخدامات مختلفة خالص:</p>
 
         <h3>أ) Tout comme adjectif (صفة تتفق مع الاسم)</h3>
         <p class="g-ar">بيوصف اسم بعده، وبيتفق معاه في النوع (مذكر/مؤنث) والعدد (مفرد/جمع). معناه "كل".</p>
@@ -250,7 +252,7 @@
       <div class="g-block">
         <h2>2. Le gérondif</h2>
         <h3>التكوين</h3>
-        <p><b>en + جذر الفعل مع "nous" في المضارع + ant</b></p>
+        <p class="g-ar"><b>en + جذر الفعل مع "nous" في المضارع + ant</b></p>
         <table class="g-table">
           <tr><th>الفعل</th><th>nous (présent)</th><th>Gérondif</th></tr>
           <tr><td>parler</td><td>nous parlons</td><td>en parlant</td></tr>
@@ -414,10 +416,55 @@
       </div>
     </section>
 
+    <!-- 7. NOMINALISATION -->
+    <section class="gsection" data-g="7">
+      <div class="g-block">
+        <h2>7. La nominalisation (تحويل الفعل إلى اسم)</h2>
+        <p class="g-ar">نستخدم تحويل الفعل لاسم (Nominalisation) لتكوين جمل أقصر وأكثر رسمية، خاصة في عناوين الصحف والتقارير. جنس الاسم المشتق بيتحدد تلقائيًا حسب النهاية (Suffixe) اللي بنضيفها:</p>
+
+        <h3>أ) النهاية -tion (أو -sion / -ation / -ition) ← دائمًا مؤنث (Féminin)</h3>
+        <p class="g-ar">أي اسم مشتق من فعل وبينتهي بـ <b>-tion</b> بياخد دايمًا <b>une / la</b> بدون أي استثناء.</p>
+        <table class="g-table">
+          <tr><th>الفعل (Verbe)</th><th>الاسم المؤنث (Nom féminin)</th><th class="ar">المعنى</th></tr>
+          <tr><td>informer</td><td>l'information (une)</td><td class="ar">معلومة / إعلام</td></tr>
+          <tr><td>polluer</td><td>la pollution</td><td class="ar">التلوث</td></tr>
+          <tr><td>organiser</td><td>l'organisation (une)</td><td class="ar">التنظيم / المنظمة</td></tr>
+          <tr><td>récupérer</td><td>la récupération</td><td class="ar">الاستعادة / إعادة التدوير</td></tr>
+          <tr><td>punir</td><td>la punition</td><td class="ar">العقاب</td></tr>
+        </table>
+
+        <h3>ب) النهاية -ment ← دائمًا مذكر (Masculin)</h3>
+        <p class="g-ar">أي اسم مشتق من فعل وبينتهي بـ <b>-ment</b> بياخد دايمًا <b>un / le</b>.</p>
+        <table class="g-table">
+          <tr><th>الفعل (Verbe)</th><th>الاسم المذكر (Nom masculin)</th><th class="ar">المعنى</th></tr>
+          <tr><td>changer</td><td>le changement</td><td class="ar">التغيير</td></tr>
+          <tr><td>développer</td><td>le développement</td><td class="ar">التطوير / التنمية</td></tr>
+          <tr><td>gouverner</td><td>le gouvernement</td><td class="ar">الحكومة</td></tr>
+          <tr><td>classer</td><td>le classement</td><td class="ar">التصنيف / الترتيب</td></tr>
+          <tr><td>entraîner</td><td>l'entraînement (un)</td><td class="ar">التدريب</td></tr>
+        </table>
+
+        <h3>ج) نهايات أخرى شائعة لتحويل الفعل لاسم</h3>
+        <table class="g-table">
+          <tr><th>النهاية</th><th>النوع</th><th>مثال (فعل ← اسم)</th><th class="ar">المعنى</th></tr>
+          <tr><td>-age</td><td>مذكر (le / un)</td><td>recycler → le recyclage</td><td class="ar">إعادة التدوير</td></tr>
+          <tr><td>-ure</td><td>مؤنث (la / une)</td><td>ouvrir → l'ouverture</td><td class="ar">الافتتاح</td></tr>
+          <tr><td>-ance / -ence</td><td>مؤنث (la / une)</td><td>exiger → l'exigence</td><td class="ar">المطلب / التشدد</td></tr>
+        </table>
+
+        <div class="g-ex">
+          <span class="fr">On a développé le tourisme durable. → Le développement du tourisme durable.</span>
+          <span class="ar">طوّرنا السياحة المستدامة ← تطوير السياحة المستدامة (عنوان صحفي موجز).</span>
+        </div>
+
+        <div class="note">انتبه: النهاية (-ment) بتيجي كمان في آخر الحال (Adverbe) المشتق من صفة (مثل: lentement ببطء). لو الكلمة مشتقة من فعل وقبلها أداة (le / un) تبقى اسم مذكر، أما لو مشتقة من صفة وبتوصف فعل تبقى حال.</div>
+      </div>
+    </section>
+
   </div>
 </main>
 
-<footer id="foot-text">17 leçons · appuie pour retourner la carte</footer>
+<footer id="foot-text">18 leçons · appuie pour retourner la carte</footer>
 
 <script>
 const DATA = [
@@ -735,6 +782,19 @@ const DATA = [
 {c:17, t:"grimper", fr:"monter en s'agrippant", ar:"يتسلق"},
 {c:17, t:"une chute", fr:"fait de tomber", ar:"سقوط"},
 {c:17, t:"des attentats", fr:"actes de terrorisme violents", ar:"هجمات إرهابية"},
+
+{c:18, t:"l'actualité", fr:"ensemble des événements récents, nouvelles du moment", ar:"مستجدات / الأحداث الجارية"},
+{c:18, t:"une rubrique", fr:"section thématique régulière dans un journal ou un magazine", ar:"قسم في الصحيفة"},
+{c:18, t:"une tapisserie", fr:"ouvrage textile décoratif mural ou papier peint", ar:"منسوجة"},
+{c:18, t:"un bidon", fr:"récipient portatif servant à transporter des liquides", ar:"جركن"},
+{c:18, t:"récupéré(e)", fr:"repris, réutilisé après avoir été jeté ou abandonné", ar:"معاد تدويره / مُسترد"},
+{c:18, t:"le tourisme durable", fr:"tourisme qui respecte l'environnement et les populations locales", ar:"سياحة مستدامة"},
+{c:18, t:"les internautes", fr:"personnes qui utilisent internet", ar:"مستخدمو الإنترنت"},
+{c:18, t:"des rumeurs", fr:"nouvelles non vérifiées qui circulent dans le public", ar:"شائعات"},
+{c:18, t:"la déprime", fr:"état passager de tristesse, de découragement ou de cafard", ar:"حالة اكتئاب / إحباط"},
+{c:18, t:"un pari", fr:"engagement mutuel sur un résultat incertain, un défi", ar:"رهان"},
+{c:18, t:"en quête de", fr:"à la recherche de quelque chose", ar:"سعيًا وراء / بحثًا عن"},
+{c:18, t:"la prise en charge", fr:"fait de s'occuper de quelqu'un ou de couvrir des frais médicaux", ar:"رعاية أو تغطية تأمينية"},
 ];
 
 const lessonsEl = document.getElementById('lessons');
@@ -831,7 +891,8 @@ const gramTitles = {
   3:"3. Cause/Cons.",
   4:"4. Relatifs",
   5:"5. de / à",
-  6:"6. Temps"
+  6:"6. Temps",
+  7:"7. Nominalisation"
 };
 Object.keys(gramTitles).forEach((id, idx) => {
   const b = document.createElement('button');
@@ -857,7 +918,7 @@ btnVocab.onclick = () => {
   tabsEl.style.display = 'flex';
   gtabsEl.style.display = 'none';
   searchEl.style.display = 'block';
-  footEl.textContent = '17 leçons · appuie pour retourner la carte';
+  footEl.textContent = '18 leçons · appuie pour retourner la carte';
 };
 btnGram.onclick = () => {
   btnGram.classList.add('active');
@@ -867,7 +928,7 @@ btnGram.onclick = () => {
   tabsEl.style.display = 'none';
   gtabsEl.style.display = 'flex';
   searchEl.style.display = 'none';
-  footEl.textContent = '6 fiches de grammaire';
+  footEl.textContent = '7 fiches de grammaire';
 };
 </script>
 </body>
